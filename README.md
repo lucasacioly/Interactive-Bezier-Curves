@@ -1,4 +1,5 @@
-# Bezier
+# Interactive-Bezier-Curves
+Interactive web board to plot Bezier Curves
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
 
