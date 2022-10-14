@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, NgZone, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, NgZone, Renderer2, HostListener } from '@angular/core';
 import { Point } from '../models/point';
 
 @Component({
@@ -9,6 +9,22 @@ import { Point } from '../models/point';
 })
 export class AppComponent implements OnInit {
   title = 'Bezier';
+
+  // Declare height and width variables
+  scrHeight:any;
+  scrWidth:any;
+
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(_event?: undefined) {
+        this.scrHeight = window.innerHeight - 1;
+        this.scrWidth = window.innerWidth - 281;
+        console.log(this.scrHeight, this.scrWidth);
+  }
+
+  // Constructor
+  constructor() {
+      this.getScreenSize();
+  }
 
   POINT_RADIUS : number  = 5;
   numEval : number = 100;
