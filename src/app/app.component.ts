@@ -40,8 +40,8 @@ export class AppComponent implements OnInit {
   addPoint : boolean = false;
   movePoint : boolean = false;
 
-  curves : Point[][] = [[]];
-
+  curves : Point[][] = [];
+  curent_curve_idx : number = -1;
   @ViewChild('canvas', {static: true}) myCanvas!: ElementRef;
 
   canvas : any ;
@@ -187,7 +187,16 @@ export class AppComponent implements OnInit {
   mouseClick(event: { offsetX: any; offsetY: any; }){
       let A : Point = {x : event.offsetX, y : event.offsetY};
       if (this.addPoint){
-        this.curves[0].push(A);
+        this.curves[this.curent_curve_idx].push(A);
+        this.reDrawCurves();
+      }
+      else if (this.newCurve){
+        let newIdx = this.curves.length
+        let newCurve: Point[] = []
+        this.curves.push(newCurve)
+        this.curves[newIdx].push(A)
+        this.curent_curve_idx = newIdx;
+        this.updateTools(3)
         this.reDrawCurves();
       }
       //this.drawPoint(A);
