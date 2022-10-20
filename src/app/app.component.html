@@ -31,14 +31,12 @@
 
     <hr>
 
-    <h2>Add Curve</h2>
+    <h2>Curves Manipulation</h2>
 
-    <div class="input-group mb-3">
-      <!--span class="input-group-text" id="basic-addon1">@</span-->
-      <input type="text" class="form-control" placeholder="Number of Control Points" aria-label="Username" aria-describedby="basic-addon1">
-    </div>
-
-    <button type="button" class="btn btn-primary">Add</button>
+    <button type="button" (click)="updateTools(1)" class="manipulation btn btn-primary">New Curve</button>
+    <button type="button" (click)="updateTools(2)" class="manipulation btn btn-primary">Select Curve</button>
+    <button type="button" (click)="updateTools(3)" class="manipulation btn btn-primary">Add Point</button>
+    <button type="button" (click)="updateTools(4)" class="manipulation btn btn-primary">Move Point</button>
 
   </nav>
 

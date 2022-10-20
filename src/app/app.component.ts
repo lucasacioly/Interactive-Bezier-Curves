@@ -35,6 +35,11 @@ export class AppComponent implements OnInit {
     {name: 'showCurves', value : true},
   ];
 
+  newCurve : boolean = false;
+  selectCurve : boolean = false;
+  addPoint : boolean = false;
+  movePoint : boolean = false;
+
   curves : Point[][] = [[]];
 
   @ViewChild('canvas', {static: true}) myCanvas!: ElementRef;
@@ -63,6 +68,32 @@ export class AppComponent implements OnInit {
     this.reDrawCurves();
   }
 
+  updateTools(id : number): void{
+    this.newCurve = false;
+    this.addPoint = false;
+    this.movePoint = false;
+    this.selectCurve = false;
+    switch (id) {
+      case 1:
+        this.newCurve = true;
+        break;
+
+      case 2:
+        this.selectCurve = true;
+        break;
+
+      case 3:
+        this.addPoint = true;
+        break;
+
+      case 4:
+        this.movePoint = true;
+        break;
+    }
+
+    console.log(this.newCurve, this.movePoint, this.addPoint, this.selectCurve)
+  }
+
   // ----------------------------- ALGORITHM -----------------------------
 
   interpolation(A : Point, B : Point, t : number):Point{
@@ -87,7 +118,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  // --------------------------- DRAWING-------------------------------------
+  // --------------------------- DRAWING -------------------------------------
   drawPoint(point : Point) : void {
     console.log("drawPoint")
     this.ctx.beginPath();
@@ -154,10 +185,11 @@ export class AppComponent implements OnInit {
 
   // ------------------------- EVENT LISTENERS --------------------------------
   mouseClick(event: { offsetX: any; offsetY: any; }){
-      console.log('clicou')
       let A : Point = {x : event.offsetX, y : event.offsetY};
-      this.curves[0].push(A);
-      this.reDrawCurves();
+      if (this.addPoint){
+        this.curves[0].push(A);
+        this.reDrawCurves();
+      }
       //this.drawPoint(A);
   }
 }
