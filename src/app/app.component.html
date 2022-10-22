@@ -38,10 +38,14 @@
     <button type="button" (click)="updateTools('deleteCurve')" class="manipulation btn btn-primary">Delete Curve</button>
     <button type="button" (click)="updateTools('addPoint')" class="manipulation btn btn-primary">Add Point</button>
     <button type="button" (click)="updateTools('movePoint')" class="manipulation btn btn-primary">Move Point</button>
-    <button type="button" (click)="updateTools('deletePoint')" class="manipulation btn btn-primary">Delete Point</button>
+    <button type="button" (click)="delPoint()" class="manipulation btn btn-primary">Delete Point</button>
   </nav>
 
-  <canvas #canvas class="canvas" width="{{scrWidth}}" height="{{scrHeight}}" (click)="mouseClick($event)"></canvas>
+  <canvas #canvas class="canvas" width="{{scrWidth}}" height="{{scrHeight}}"
+    (click)="mouseClick($event)"
+    (mousedown)="mouseDown($event)"
+    (mouseup)="mouseUp($event)"
+    (mousemove)="mouseMove($event)"></canvas>
 
 </body>
 

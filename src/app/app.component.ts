@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       this.getScreenSize();
   }
 
-  POINT_RADIUS : number  = 5;
+  POINT_RADIUS : number  = 10;
   numEval : number = 100;
 
   drawStatus = [
@@ -37,21 +37,26 @@ export class AppComponent implements OnInit {
 
   newCurve : boolean = false;
   selectCurve : boolean = false;
-  deleteCurve : boolean = false;
   addPoint : boolean = false;
   movePoint : boolean = false;
-  deletePoint : boolean = false;
 
   curves : Point[][] = [];
   curent_curve_idx : number = -1;
-
+  current_point_idx = {curve : -1, point :-1};
 
   @ViewChild('canvas', {static: true}) myCanvas!: ElementRef;
   canvas : any ;
   ctx! : CanvasRenderingContext2D ;
+  CLICK : boolean = false;
 
   updateEvaluations(val : string): void{
-    this.numEval = Number(val);
+    let v = Number(val);
+    if (v > 500){
+      this.numEval = 500;
+    }
+    else{
+      this.numEval = Number(val);
+    }
     console.log(this.numEval);
     this.reDrawCurves();
   }
@@ -74,10 +79,9 @@ export class AppComponent implements OnInit {
   updateTools(id : string): void{
     this.newCurve = false;
     this.selectCurve = false;
-    this.deleteCurve = false;
     this.addPoint = false;
     this.movePoint = false;
-    this.deletePoint = false;
+    this.reset_sel_point();
 
     switch (id) {
       case 'newCurve':
@@ -88,24 +92,36 @@ export class AppComponent implements OnInit {
         this.selectCurve = true;
         break;
 
-      case 'deleteCurve':
-        this.deleteCurve = true;
-        break;
-
       case 'addPoint':
         this.addPoint = true;
         break;
+
       case 'movePoint':
         this.movePoint = true;
         break;
-
-      case 'deletePoint':
-        this.deletePoint = true;
-        break;
-
     }
 
-    console.log(this.newCurve, this.selectCurve, this.deleteCurve, this.addPoint, this.movePoint, this.deletePoint)
+    this.reDrawCurves();
+    console.log(this.newCurve, this.selectCurve, this.addPoint, this.movePoint)
+  }
+
+  delPoint(){
+    if (this.movePoint === true && this.current_point_idx.curve != -1){
+      this.curves[this.current_point_idx.curve].splice(this.current_point_idx.point, 1);
+      this.reDrawCurves();
+      this.reset_sel_point();
+    }
+  }
+
+  delCurve(){
+
+  }
+
+  reset_sel_point(){
+    if (this.current_point_idx.point != -1){
+      this.curves[this.current_point_idx.curve][this.current_point_idx.point].color = 'black'
+      this.current_point_idx = {curve : -1, point : -1};
+    }
   }
 
   // ----------------------------- ALGORITHM -----------------------------
@@ -113,7 +129,8 @@ export class AppComponent implements OnInit {
   interpolation(A : Point, B : Point, t : number):Point{
     let newPoint : Point = {
       x : A.x * (1-t) + B.x * t,
-      y : A.y * (1-t) + B.y * t
+      y : A.y * (1-t) + B.y * t,
+      color : 'black'
     }
     return newPoint
   }
@@ -137,7 +154,7 @@ export class AppComponent implements OnInit {
     console.log("drawPoint")
     this.ctx.beginPath();
     this.ctx.arc(point.x, point.y, this.POINT_RADIUS, 0, 2 * Math.PI);
-    this.ctx.fillStyle = 'black';
+    this.ctx.fillStyle = point.color;
     this.ctx.fill();
     this.ctx.stroke();
     this.ctx.closePath();
@@ -203,7 +220,24 @@ export class AppComponent implements OnInit {
 
   // ------------------------- EVENT LISTENERS --------------------------------
   mouseClick(event: { offsetX: any; offsetY: any; }){
-      let A : Point = {x : event.offsetX, y : event.offsetY};
+
+      if (this.movePoint){
+        let x_click= event.offsetX
+        let y_click = event.offsetY
+        let sel_point : Point = this.curves[this.current_point_idx.curve][this.current_point_idx.point]
+        let A : Point = {x : x_click, y : y_click, color : sel_point.color};
+        this.curves[this.current_point_idx.curve]?.splice(this.current_point_idx.point, 1, A)
+        this.reDrawCurves();
+      }
+  }
+
+  mouseDown(event : MouseEvent){
+      this.CLICK = true;
+      let x_click= event.offsetX
+      let y_click = event.offsetY
+      let A : Point = {x : x_click, y : y_click, color : 'black'};
+
+      console.log(event)
       if (this.addPoint){
         this.curves[this.curent_curve_idx].push(A);
         this.reDrawCurves();
@@ -217,5 +251,40 @@ export class AppComponent implements OnInit {
         this.updateTools('addPoint')
         this.reDrawCurves();
       }
+      else if (this.movePoint){
+        for (let curve = 0; curve < this.curves.length; curve++){
+          for (let point = 0; point < this.curves[curve].length; point++){
+            let distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
+            if (distance < this.POINT_RADIUS) {
+              if (this.current_point_idx.point != -1){
+                this.curves[this.current_point_idx.curve][this.current_point_idx.point].color = 'black'
+              }
+              this.curves[curve][point].color = 'red'
+              this.current_point_idx = {curve : curve, point : point}
+              console.log('foi')
+            }
+          }
+        }
+        this.reDrawCurves();
+      }
   }
+
+  mouseMove(event : MouseEvent){
+    if (this.CLICK && this.movePoint){
+      let x_click= event.offsetX
+      let y_click = event.offsetY
+      let sel_point : Point = this.curves[this.current_point_idx.curve][this.current_point_idx.point]
+      let A : Point = {x : x_click, y : y_click, color : sel_point.color};
+      this.curves[this.current_point_idx.curve]?.splice(this.current_point_idx.point, 1, A)
+      this.reDrawCurves();
+    }
+  }
+
+  mouseUp(event: MouseEvent){
+    this.CLICK = false;
+  }
+
 }
+
+
+
