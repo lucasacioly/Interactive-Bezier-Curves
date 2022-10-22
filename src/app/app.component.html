@@ -33,11 +33,12 @@
 
     <h2>Curves Manipulation</h2>
 
-    <button type="button" (click)="updateTools(1)" class="manipulation btn btn-primary">New Curve</button>
-    <button type="button" (click)="updateTools(2)" class="manipulation btn btn-primary">Select Curve</button>
-    <button type="button" (click)="updateTools(3)" class="manipulation btn btn-primary">Add Point</button>
-    <button type="button" (click)="updateTools(4)" class="manipulation btn btn-primary">Move Point</button>
-
+    <button type="button" (click)="updateTools('newCurve')" class="manipulation btn btn-primary">New Curve</button>
+    <button type="button" (click)="updateTools('selectCurve')" class="manipulation btn btn-primary">Select Curve</button>
+    <button type="button" (click)="updateTools('deleteCurve')" class="manipulation btn btn-primary">Delete Curve</button>
+    <button type="button" (click)="updateTools('addPoint')" class="manipulation btn btn-primary">Add Point</button>
+    <button type="button" (click)="updateTools('movePoint')" class="manipulation btn btn-primary">Move Point</button>
+    <button type="button" (click)="updateTools('deletePoint')" class="manipulation btn btn-primary">Delete Point</button>
   </nav>
 
   <canvas #canvas class="canvas" width="{{scrWidth}}" height="{{scrHeight}}" (click)="mouseClick($event)"></canvas>

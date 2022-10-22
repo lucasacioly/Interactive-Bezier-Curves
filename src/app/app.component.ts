@@ -37,13 +37,16 @@ export class AppComponent implements OnInit {
 
   newCurve : boolean = false;
   selectCurve : boolean = false;
+  deleteCurve : boolean = false;
   addPoint : boolean = false;
   movePoint : boolean = false;
+  deletePoint : boolean = false;
 
   curves : Point[][] = [];
   curent_curve_idx : number = -1;
-  @ViewChild('canvas', {static: true}) myCanvas!: ElementRef;
 
+
+  @ViewChild('canvas', {static: true}) myCanvas!: ElementRef;
   canvas : any ;
   ctx! : CanvasRenderingContext2D ;
 
@@ -68,30 +71,41 @@ export class AppComponent implements OnInit {
     this.reDrawCurves();
   }
 
-  updateTools(id : number): void{
+  updateTools(id : string): void{
     this.newCurve = false;
+    this.selectCurve = false;
+    this.deleteCurve = false;
     this.addPoint = false;
     this.movePoint = false;
-    this.selectCurve = false;
+    this.deletePoint = false;
+
     switch (id) {
-      case 1:
+      case 'newCurve':
         this.newCurve = true;
         break;
 
-      case 2:
+      case 'selectCurve':
         this.selectCurve = true;
         break;
 
-      case 3:
+      case 'deleteCurve':
+        this.deleteCurve = true;
+        break;
+
+      case 'addPoint':
         this.addPoint = true;
         break;
-
-      case 4:
+      case 'movePoint':
         this.movePoint = true;
         break;
+
+      case 'deletePoint':
+        this.deletePoint = true;
+        break;
+
     }
 
-    console.log(this.newCurve, this.movePoint, this.addPoint, this.selectCurve)
+    console.log(this.newCurve, this.selectCurve, this.deleteCurve, this.addPoint, this.movePoint, this.deletePoint)
   }
 
   // ----------------------------- ALGORITHM -----------------------------
@@ -123,7 +137,10 @@ export class AppComponent implements OnInit {
     console.log("drawPoint")
     this.ctx.beginPath();
     this.ctx.arc(point.x, point.y, this.POINT_RADIUS, 0, 2 * Math.PI);
+    this.ctx.fillStyle = 'black';
+    this.ctx.fill();
     this.ctx.stroke();
+    this.ctx.closePath();
   }
 
   drawLine(A : Point, B : Point) : void {
@@ -133,6 +150,7 @@ export class AppComponent implements OnInit {
     this.ctx.lineTo(B.x, B.y);
     this.ctx.strokeStyle = "12px"
     this.ctx.stroke();
+    this.ctx.closePath();
   }
 
   drawControlPoligon(points : Point[] ) : void {
@@ -196,9 +214,8 @@ export class AppComponent implements OnInit {
         this.curves.push(newCurve)
         this.curves[newIdx].push(A)
         this.curent_curve_idx = newIdx;
-        this.updateTools(3)
+        this.updateTools('addPoint')
         this.reDrawCurves();
       }
-      //this.drawPoint(A);
   }
 }
