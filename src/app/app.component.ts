@@ -13,11 +13,16 @@ export class AppComponent implements OnInit {
   // Declare height and width variables
   scrHeight:any;
   scrWidth:any;
-
+  control:boolean = false;
   @HostListener('window:resize', ['$event'])
   getScreenSize(_event?: undefined) {
         this.scrHeight = window.innerHeight - 1;
         this.scrWidth = window.innerWidth - 281;
+        if (this.control){
+          console.log('ok')
+          this.reDrawCurves();
+        }
+        this.control = true;
         console.log(this.scrHeight, this.scrWidth);
   }
 
@@ -49,6 +54,19 @@ export class AppComponent implements OnInit {
   ctx! : CanvasRenderingContext2D ;
   CLICK : boolean = false;
 
+  ngOnInit(): void {
+    this.canvas = this.myCanvas.nativeElement;
+    this.ctx = this.canvas.getContext('2d');
+  }
+
+  /*
+  onResizeWin() : void{
+    this.canvas.nativeElement.height = this.scrHeight;
+    this.canvas.nativeElement.width = this.scrWidth;
+    this.ctx = this.canvas.nativeElement.getContext("2d");
+    this.reDrawCurves
+  }*/
+
   updateEvaluations(val : string): void{
     let v = Number(val);
     if (v > 500){
@@ -60,12 +78,8 @@ export class AppComponent implements OnInit {
     console.log(this.numEval);
     this.reDrawCurves();
   }
-  ngOnInit(): void {
-    this.canvas = this.myCanvas.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-  }
 
-  onChange(id : number, event : any){
+  onChange(id : number){
     if (this.drawStatus[id].value === true) {
       this.drawStatus[id].value = false;
     }
@@ -109,7 +123,7 @@ export class AppComponent implements OnInit {
     if (this.movePoint === true && this.current_point_idx.curve != -1){
       this.curves[this.current_point_idx.curve].splice(this.current_point_idx.point, 1);
       this.reDrawCurves();
-      this.reset_sel_point();
+      this.current_point_idx = {curve : -1, point : -1};
     }
   }
 
@@ -119,6 +133,7 @@ export class AppComponent implements OnInit {
 
   reset_sel_point(){
     if (this.current_point_idx.point != -1){
+
       this.curves[this.current_point_idx.curve][this.current_point_idx.point].color = 'black'
       this.current_point_idx = {curve : -1, point : -1};
     }
@@ -212,10 +227,11 @@ export class AppComponent implements OnInit {
     if (this.drawStatus[2].value && this.numEval > 1){
         for (let i = 0; i < this.curves.length; i++){
 
-            this.ctx.strokeStyle = "black";
+            this.ctx.strokeStyle = "blue";
             this.drawCurve(this.curves[i]);
         }
     }
+    console.log(this.curves)
   }
 
   // ------------------------- EVENT LISTENERS --------------------------------
