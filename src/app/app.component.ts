@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
       this.getScreenSize();
   }
 
-  POINT_RADIUS : number  = 10;
+  POINT_RADIUS:number =10;
   numEval : number = 100;
 
   drawStatus = [
@@ -145,6 +145,7 @@ export class AppComponent implements OnInit {
     let newPoint : Point = {
       x : A.x * (1-t) + B.x * t,
       y : A.y * (1-t) + B.y * t,
+      radius : this.POINT_RADIUS,
       color : 'black'
     }
     return newPoint
@@ -241,7 +242,7 @@ export class AppComponent implements OnInit {
         let x_click= event.offsetX
         let y_click = event.offsetY
         let sel_point : Point = this.curves[this.current_point_idx.curve][this.current_point_idx.point]
-        let A : Point = {x : x_click, y : y_click, color : sel_point.color};
+        let A : Point = {x : x_click, y : y_click, radius : this.POINT_RADIUS, color : sel_point.color};
         this.curves[this.current_point_idx.curve]?.splice(this.current_point_idx.point, 1, A)
         this.reDrawCurves();
       }
@@ -251,7 +252,7 @@ export class AppComponent implements OnInit {
       this.CLICK = true;
       let x_click= event.offsetX
       let y_click = event.offsetY
-      let A : Point = {x : x_click, y : y_click, color : 'black'};
+      let A : Point = {x : x_click, y : y_click, radius : this.POINT_RADIUS, color : 'black'};
 
       console.log(event)
       if (this.addPoint){
@@ -290,7 +291,7 @@ export class AppComponent implements OnInit {
       let x_click= event.offsetX
       let y_click = event.offsetY
       let sel_point : Point = this.curves[this.current_point_idx.curve][this.current_point_idx.point]
-      let A : Point = {x : x_click, y : y_click, color : sel_point.color};
+      let A : Point = {x : x_click, y : y_click, radius : this.POINT_RADIUS, color : sel_point.color};
       this.curves[this.current_point_idx.curve]?.splice(this.current_point_idx.point, 1, A)
       this.reDrawCurves();
     }
