@@ -10,6 +10,7 @@ import { Point } from '../models/point';
 export class AppComponent implements OnInit {
   title = 'Bezier';
 
+
   // Declare height and width variables
   scrHeight:any;
   scrWidth:any;
