@@ -311,7 +311,7 @@ export class AppComponent implements OnInit {
                   this.curves[curve][point].color = 'yellow'
               }
               this.current_point_idx = {curve : curve, point : point}
-              console.log('foi')
+              console.log('ok')
             }
           }
         }
