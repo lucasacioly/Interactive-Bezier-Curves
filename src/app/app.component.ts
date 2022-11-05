@@ -129,11 +129,18 @@ export class AppComponent implements OnInit {
   }
 
   delCurve(){
-    if (this.movePoint === true && this.current_point_idx.curve != -1){
+    if (this.selectCurve === true && this.current_point_idx.curve != -1){
       this.curves.splice(this.current_point_idx.curve, 1);
       this.reDrawCurves();
       this.current_point_idx = {curve : -1, point : -1};
       this.curent_curve_idx = -1;
+    }
+  }
+
+  selCurve() {
+    if (this.movePoint === true && this.current_point_idx.curve != -1){
+      this.curves.splice(this.current_point_idx.curve, 1);
+      this.reDrawCurves();
     }
   }
 
@@ -280,7 +287,9 @@ export class AppComponent implements OnInit {
             let distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
             if (distance < this.POINT_RADIUS) {
               if (this.current_point_idx.point != -1){
-                this.curves[this.current_point_idx.curve][this.current_point_idx.point].color = 'black'
+                for (let point1 = 0; point1 < this.curves[this.current_point_idx.curve].length; point1++) {
+                  this.curves[this.current_point_idx.curve][point1].color = 'black'
+                }
               }
               this.curves[curve][point].color = 'red'
               this.current_point_idx = {curve : curve, point : point}
@@ -290,6 +299,27 @@ export class AppComponent implements OnInit {
         }
         this.reDrawCurves();
       }
+      else if (this.selectCurve){
+        for (let curve = 0; curve < this.curves.length; curve++){
+          for (let point = 0; point < this.curves[curve].length; point++){
+            let distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
+            if (distance < this.POINT_RADIUS) {
+              if (this.current_point_idx.point != -1){
+                for (let point1 = 0; point1 < this.curves[this.current_point_idx.curve].length; point1++) {
+                  this.curves[this.current_point_idx.curve][point1].color = 'black'
+                }
+              }
+              for (let point = 0; point < this.curves[curve].length; point++){
+                  this.curves[curve][point].color = 'yellow'
+              }
+              this.current_point_idx = {curve : curve, point : point}
+              console.log('foi')
+            }
+          }
+        }
+        this.reDrawCurves();
+      }
+    
   }
 
   mouseMove(event : MouseEvent){
