@@ -128,7 +128,12 @@ export class AppComponent implements OnInit {
   }
 
   delCurve(){
-
+    if (this.movePoint === true && this.current_point_idx.curve != -1){
+      this.curves.splice(this.current_point_idx.curve, 1);
+      this.reDrawCurves();
+      this.current_point_idx = {curve : -1, point : -1};
+      this.curent_curve_idx = -1;
+    }
   }
 
   reset_sel_point(){
