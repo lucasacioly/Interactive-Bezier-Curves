@@ -287,9 +287,7 @@ export class AppComponent implements OnInit {
             let distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
             if (distance < this.POINT_RADIUS) {
               if (this.current_point_idx.point != -1){
-                for (let point1 = 0; point1 < this.curves[this.current_point_idx.curve].length; point1++) {
-                  this.curves[this.current_point_idx.curve][point1].color = 'black'
-                }
+                this.curves[this.current_point_idx.curve][this.current_point_idx.point].color = 'black'
               }
               this.curves[curve][point].color = 'red'
               this.current_point_idx = {curve : curve, point : point}
