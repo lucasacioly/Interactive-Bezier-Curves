@@ -1,0 +1,20 @@
+.content{
+  display: flex;
+  width: 100%;
+}
+
+.canvas{
+  display: block;
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgb(245, 245, 245) 1px, transparent 2px),
+    linear-gradient(to bottom, rgb(245, 245, 245)1px, transparent 2px);
+}
+
+.manipulation{
+  width: 150px;
+}
+
+.tool-buttons {
+  margin: 10px;
+}

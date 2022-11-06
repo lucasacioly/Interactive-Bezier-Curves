@@ -1,0 +1,53 @@
+<body class="content">
+  <nav class="navbar d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+
+    <h1>Bezier</h1>
+
+    <hr>
+    <h2>General Parameters</h2>
+    <div class="input-group mb-3">
+      <!--span class="input-group-text" id="basic-addon1">@</span-->
+      <input type="text" class="form-control" #evals (keyup)="updateEvaluations(evals.value)" placeholder="Number of evaluations" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+    <hr>
+
+    <div class="flex-end">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" (change)="onChange(0)" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Show Control Points</label>
+      </div>
+
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" (change)="onChange(1)" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Show Control Poligonals</label>
+      </div>
+
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" (change)="onChange(2)" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Show Curves</label>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>Curves Manipulation</h2>
+
+    <button type="button" (click)="updateTools('newCurve')" [ngStyle]="{'background-color' : newCurve ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">New Curve</button>
+    <button type="button" (click)="updateTools('selectCurve')" [ngStyle]="{'background-color' : selectCurve ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Select Curve</button>
+    <button type="button" (click)="delCurve()" class="manipulation" [ngStyle]="{'background-color' : deleteCurve ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Delete Curve</button>
+    <button type="button" (click)="updateTools('addPoint')" [ngStyle]="{'background-color' : addPoint ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Add Point</button>
+    <button type="button" (click)="updateTools('movePoint')" [ngStyle]="{'background-color' : movePoint ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Select/Move Point</button>
+    <button type="button" (click)="delPoint()" [ngStyle]="{'background-color' : deletePoint ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Delete Point</button>
+  </nav>
+
+  <canvas #canvas class="canvas" width="{{scrWidth}}" height="{{scrHeight}}"
+    (click)="mouseClick($event)"
+    (mousedown)="mouseDown($event)"
+    (mouseup)="mouseUp($event)"
+    (mousemove)="mouseMove($event)"></canvas>
+
+</body>
+
+
+<router-outlet></router-outlet>

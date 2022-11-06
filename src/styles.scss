@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+
+/*------------------------------ FONTS ------------------------------------------*/
+@font-face {
+  font-family: "Roboto";
+  src: local("static"), url(./assets/fonts/roboto/Roboto-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-b";
+  src: local("static"), url(./assets/fonts/roboto/Roboto-Black.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-i";
+  src: local("static"), url(./assets/fonts/roboto/Roboto-Italic.ttf) format("truetype");
+}
+
+h1{
+  font-size: 44px
+}
+
+h2{
+  font-size: 24px;
+}
