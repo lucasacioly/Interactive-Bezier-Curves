@@ -45,6 +45,8 @@ export class AppComponent implements OnInit {
   selectCurve : boolean = false;
   addPoint : boolean = false;
   movePoint : boolean = false;
+  deletePoint : boolean = false;
+  deleteCurve : boolean = false;
 
   curves : Point[][] = [];
   curent_curve_idx : number = -1;
@@ -96,6 +98,8 @@ export class AppComponent implements OnInit {
     this.selectCurve = false;
     this.addPoint = false;
     this.movePoint = false;
+    this.deletePoint = false;
+    this.deleteCurve = false;
     this.reset_sel_point();
 
     switch (id) {
@@ -105,6 +109,7 @@ export class AppComponent implements OnInit {
 
       case 'selectCurve':
         this.selectCurve = true;
+        
         break;
 
       case 'addPoint':
@@ -113,6 +118,14 @@ export class AppComponent implements OnInit {
 
       case 'movePoint':
         this.movePoint = true;
+        break;
+
+      case 'deletePoint':
+        this.deletePoint = true;
+        break;
+
+      case 'delCurve':
+        this.deleteCurve = true;
         break;
     }
 
@@ -126,6 +139,7 @@ export class AppComponent implements OnInit {
       this.reDrawCurves();
       this.current_point_idx = {curve : -1, point : -1};
     }
+    this.deletePoint = false;
   }
 
   delCurve(){
@@ -135,19 +149,15 @@ export class AppComponent implements OnInit {
       this.current_point_idx = {curve : -1, point : -1};
       this.curent_curve_idx = -1;
     }
+    this.deleteCurve = false;
   }
 
-  selCurve() {
-    if (this.movePoint === true && this.current_point_idx.curve != -1){
-      this.curves.splice(this.current_point_idx.curve, 1);
-      this.reDrawCurves();
-    }
-  }
 
   reset_sel_point(){
     if (this.current_point_idx.point != -1){
-
-      this.curves[this.current_point_idx.curve][this.current_point_idx.point].color = 'black'
+      for (let point1 = 0; point1 < this.curves[this.current_point_idx.curve].length; point1++) {
+        this.curves[this.current_point_idx.curve][point1].color = 'black'
+      }
       this.current_point_idx = {curve : -1, point : -1};
     }
   }
@@ -269,8 +279,9 @@ export class AppComponent implements OnInit {
 
       console.log(event)
       if (this.addPoint){
-        this.curves[this.curent_curve_idx].push(A);
-        this.reDrawCurves();
+            this.curves[this.curent_curve_idx].push(A);
+            this.reDrawCurves();
+          //this.curves[this.current_point_idx.curve].splice(this.current_point_idx.point, 1);
       }
       else if (this.newCurve){
         let newIdx = this.curves.length
@@ -286,8 +297,9 @@ export class AppComponent implements OnInit {
           for (let point = 0; point < this.curves[curve].length; point++){
             let distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
             if (distance < this.POINT_RADIUS) {
+              this.deletePoint = true;
               if (this.current_point_idx.point != -1){
-                this.curves[this.current_point_idx.curve][this.current_point_idx.point].color = 'black'
+                this.reset_sel_point()
               }
               this.curves[curve][point].color = 'red'
               this.current_point_idx = {curve : curve, point : point}
@@ -298,14 +310,14 @@ export class AppComponent implements OnInit {
         this.reDrawCurves();
       }
       else if (this.selectCurve){
-        for (let curve = 0; curve < this.curves.length; curve++){
-          for (let point = 0; point < this.curves[curve].length; point++){
-            let distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
+        for (var curve = 0; curve < this.curves.length; curve++){
+          for (var point = 0; point < this.curves[curve].length; point++){
+            var distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
             if (distance < this.POINT_RADIUS) {
+              this.deleteCurve = true;
+              this.addPoint = true;
               if (this.current_point_idx.point != -1){
-                for (let point1 = 0; point1 < this.curves[this.current_point_idx.curve].length; point1++) {
-                  this.curves[this.current_point_idx.curve][point1].color = 'black'
-                }
+                this.reset_sel_point()
               }
               for (let point = 0; point < this.curves[curve].length; point++){
                   this.curves[curve][point].color = 'yellow'

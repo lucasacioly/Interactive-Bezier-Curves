@@ -33,12 +33,12 @@
 
     <h2>Curves Manipulation</h2>
 
-    <button type="button" (click)="updateTools('newCurve')" [ngStyle]="{'background-color' : newCurve ? '#5a189a' : '#7b2cbf'}"class="manipulation btn light text-light tool-button">New Curve</button>
-    <button type="button" (click)="updateTools('selectCurve')" [ngStyle]="{'background-color' : selectCurve ? '#5a189a' : '#7b2cbf'}"class="manipulation btn light text-light tool-button">Select Curve</button>
-    <button type="button" (click)="delCurve()" class="manipulation" [ngStyle]="{'background-color' : delCurve ? '#5a189a' : '#7b2cbf'}"class="manipulation btn light text-light tool-button">Delete Curve</button>
-    <button type="button" (click)="updateTools('addPoint')" [ngStyle]="{'background-color' : addPoint ? '#5a189a' : '#7b2cbf'}"class="manipulation btn light text-light tool-button">Add Point</button>
-    <button type="button" (click)="updateTools('movePoint')" [ngStyle]="{'background-color' : movePoint ? '#5a189a' : '#7b2cbf'}"class="manipulation btn light text-light tool-button">Move Point</button>
-    <button type="button" (click)="delPoint()" [ngStyle]="{'background-color' : delPoint ? '#5a189a' : '#7b2cbf'}"class="manipulation btn light text-light tool-button">Delete Point</button>
+    <button type="button" (click)="updateTools('newCurve')" [ngStyle]="{'background-color' : newCurve ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">New Curve</button>
+    <button type="button" (click)="updateTools('selectCurve')" [ngStyle]="{'background-color' : selectCurve ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Select Curve</button>
+    <button type="button" (click)="delCurve()" class="manipulation" [ngStyle]="{'background-color' : deleteCurve ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Delete Curve</button>
+    <button type="button" (click)="updateTools('addPoint')" [ngStyle]="{'background-color' : addPoint ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Add Point</button>
+    <button type="button" (click)="updateTools('movePoint')" [ngStyle]="{'background-color' : movePoint ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Move Point</button>
+    <button type="button" (click)="delPoint()" [ngStyle]="{'background-color' : deletePoint ? '#0275d8' : '#6c757d'}"class="manipulation btn light text-light tool-button">Delete Point</button>
   </nav>
 
   <canvas #canvas class="canvas" width="{{scrWidth}}" height="{{scrHeight}}"
