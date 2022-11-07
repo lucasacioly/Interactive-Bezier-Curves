@@ -140,6 +140,7 @@ export class AppComponent implements OnInit {
       this.current_point_idx = {curve : -1, point : -1};
     }
     this.deletePoint = false;
+    this.addPoint = false;
   }
 
   delCurve(){
@@ -151,7 +152,6 @@ export class AppComponent implements OnInit {
     }
     this.deleteCurve = false;
   }
-
 
   reset_sel_point(){
     if (this.current_point_idx.point != -1){
@@ -322,6 +322,7 @@ export class AppComponent implements OnInit {
               for (let point = 0; point < this.curves[curve].length; point++){
                   this.curves[curve][point].color = 'yellow'
               }
+              this.curent_curve_idx = curve
               this.current_point_idx = {curve : curve, point : point}
               console.log('ok')
             }
