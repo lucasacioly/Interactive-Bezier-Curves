@@ -331,26 +331,6 @@ export class AppComponent implements OnInit {
         }
         this.reDrawCurves();
       }
-      else if (this.deleteCurve){
-        for (var curve = 0; curve < this.curves.length; curve++){
-          for (var point = 0; point < this.curves[curve].length; point++){
-            var distance = Math.sqrt((x_click - this.curves[curve][point].x)**2 + (y_click - this.curves[curve][point].y)**2)
-            if (distance < this.POINT_RADIUS) {
-              this.deleteCurve = true;
-              this.addPoint = true;
-              if (this.current_point_idx.point != -1){
-                this.reset_sel_point()
-              }
-              for (let point = 0; point < this.curves[curve].length; point++){
-                  this.curves[curve][point].color = 'yellow'
-              }
-              this.curent_curve_idx = curve
-              this.current_point_idx = {curve : curve, point : point}
-              console.log('ok')
-            }
-          }
-      }
-    }
     
   }
 
